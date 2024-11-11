@@ -9,3 +9,4 @@ services:
       - "3003:3000"  
     volumes:
       - ../app:/usr/src/app  
+      - /usr/src/app/node_modules # anonymous volume

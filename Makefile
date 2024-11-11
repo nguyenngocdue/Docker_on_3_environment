@@ -8,12 +8,12 @@ push_to_beta:
 	# Stop môi trường beta hiện tại
 	$(DOCKER_COMPOSE_202) down
 	# Build lại môi trường beta với code mới nhất từ thư mục app
-	$(DOCKER_COMPOSE_202) up --build -d --no-cache
+	$(DOCKER_COMPOSE_202) up --build -d 
 	@echo "Code đã được đẩy lên beta (docker_202) thành công!"
 
 push_to_prod:
     # Stop môi trường prod hiện tại
 	$(DOCKER_COMPOSE_102) down
 	# Build lại môi trường prod với code mới nhất từ thư mục app
-	$(DOCKER_COMPOSE_102) up --build -d --no-cache
+	$(DOCKER_COMPOSE_102) up --build -d 
 	@echo "Code đã được đẩy lên prod (docker_102) thành công!"
