@@ -1,4 +1,4 @@
-# .docker_302/Dockerfile
+# .docker_202/Dockerfile
 FROM node:20-alpine
 
 # Thiết lập thư mục làm việc
@@ -22,5 +22,5 @@ EXPOSE 3000
 # Thiết lập người dùng
 USER node
 
-# Lệnh khởi chạy ứng dụng
-CMD ["npm", "run", "start:dev"]
+# Lệnh khởi chạy ứng dụng ở môi trường production
+CMD ["npm", "run", "start:prod"]

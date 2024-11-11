@@ -1,3 +1,4 @@
+# .docker_302/docker-compose302.yml
 version: '3'
 services:
   frontend:
@@ -5,7 +6,6 @@ services:
       context: ..
       dockerfile: .docker_302/Dockerfile
     ports:
-      - "3003:3000" 
-networks:
-  shared-network:
-    external: true
+      - "3003:3000"  
+    volumes:
+      - ../app:/usr/src/app  

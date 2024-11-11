@@ -1,4 +1,3 @@
-# .docker_202/docker-compose202.yml
 version: '3'
 services:
   frontend:
@@ -6,12 +5,4 @@ services:
       context: ..
       dockerfile: .docker_202/Dockerfile
     ports:
-      - "3002:3000"  # Map cổng 3000 trong container tới cổng 3002 trên host
-    volumes:
-      - ../app:/usr/src/app  # Mount thư mục app vào container
-    networks:
-      - shared-network
-
-networks:
-  shared-network:
-    external: true
+      - "3002:3000"  # Expose cổng 3002 cho môi trường beta
