@@ -1,18 +1,11 @@
-# File Makefile để quản lý Docker Compose cho ba môi trường
+# Makefile tại project-root
+DOCKER_COMPOSE_202=docker-compose -f .docker_202/docker-compose202.yml
+DOCKER_COMPOSE_303=docker-compose -f .docker_302/docker-compose302.yml
 
-# Tên các file Docker Compose
-COMPOSE_FILE_LOCAL=.docker_302/docker-compose302.yml
-COMPOSE_FILE_BETA=.docker_202/docker-compose202.yml
-COMPOSE_FILE_PROD=.docker_102/docker-compose102.yml
-
-up:
-	@echo "Starting $(env) environment..."
-	@if [ "$(env)" = "local" ]; then \
-		docker-compose -f $(COMPOSE_FILE_LOCAL) up -d; \
-	elif [ "$(env)" = "beta" ]; then \
-		docker-compose -f $(COMPOSE_FILE_BETA) up -d; \
-	elif [ "$(env)" = "prod" ]; then \
-		docker-compose -f $(COMPOSE_FILE_PROD) up -d; \
-	else \
-		echo "Invalid environment. Use 'env=local', 'env=beta', or 'env=prod'."; \
-	fi
+# Lệnh để build và push code mới nhất sang môi trường beta (docker_202)
+push_to_beta:
+	# Stop môi trường beta hiện tại trong docker_202
+	$(DOCKER_COMPOSE_202) down
+	# Rebuild và start lại môi trường beta với code mới nhất
+	$(DOCKER_COMPOSE_202) up --build -d
+	@echo "Successfully pushed latest code to beta (docker_202)"

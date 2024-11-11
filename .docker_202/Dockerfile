@@ -1,7 +1,26 @@
-# Test Dockerfile chỉ để debug
-FROM node:18
+# .docker_302/Dockerfile
+FROM node:20-alpine
 
+# Thiết lập thư mục làm việc
 WORKDIR /usr/src/app
 
-# Kiểm tra xem thư mục ../app có tồn tại không
-RUN ls -al ../app
+# Sao chép các file package.json và package-lock.json từ thư mục app
+COPY ../app/package*.json ./
+
+# Set quyền sở hữu (nếu cần thiết)
+RUN chown -R node:node /usr/src/app
+
+# Cài đặt các dependency
+RUN npm install
+
+# Sao chép toàn bộ mã nguồn từ thư mục app
+COPY ../app .
+
+# Mở cổng 3000
+EXPOSE 3000
+
+# Thiết lập người dùng
+USER node
+
+# Lệnh khởi chạy ứng dụng
+CMD ["npm", "run", "start:dev"]

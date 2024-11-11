@@ -1,13 +1,17 @@
-# docker_302/docker-compose302.yml
-
+# .docker_202/docker-compose202.yml
 version: '3'
 services:
-  nestjs-app:
+  frontend:
     build:
       context: ..
-      dockerfile: docker_302/Dockerfile
+      dockerfile: .docker_202/Dockerfile
     ports:
-      - "3000:3000"
+      - "3002:3000"  # Map cổng 3000 trong container tới cổng 3002 trên host
     volumes:
-      - ../app:/usr/src/app
-    
+      - ../app:/usr/src/app  # Mount thư mục app vào container
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
