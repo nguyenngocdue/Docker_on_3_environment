@@ -1,12 +1,29 @@
-# .docker_302/docker-compose302.yml
 version: '3'
 services:
+  db:
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: db_ecom
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "54002:5432"
+
   frontend:
     build:
       context: ..
       dockerfile: .docker_302/Dockerfile
     ports:
-      - "3003:3000"  
+      - "3003:3000"
     volumes:
-      - ../app:/usr/src/app  
-      - /usr/src/app/node_modules # anonymous volume
+      - ../app:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://myuser:mypassword@db:5432/db_ecom
+
+volumes:
+  db-data:
