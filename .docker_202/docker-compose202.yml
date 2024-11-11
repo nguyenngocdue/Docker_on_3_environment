@@ -1,0 +1,13 @@
+# docker_302/docker-compose302.yml
+
+version: '3'
+services:
+  nestjs-app:
+    build:
+      context: ..
+      dockerfile: docker_302/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../app:/usr/src/app
+    
