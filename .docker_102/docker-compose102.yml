@@ -5,4 +5,4 @@ services:
       context: ..
       dockerfile: .docker_102/Dockerfile
     ports:
-      - "3001:3000"  # Expose cổng 3002 cho môi trường beta
+      - "3001:3000"  
