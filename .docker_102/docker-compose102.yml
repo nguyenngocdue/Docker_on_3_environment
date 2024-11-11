@@ -1,10 +1,8 @@
 version: '3'
 services:
-  app:
+  frontend:
     build:
-      context: .
+      context: ..
       dockerfile: .docker_102/Dockerfile
     ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
+      - "3001:3000"  # Expose cổng 3002 cho môi trường beta
