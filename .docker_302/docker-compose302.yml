@@ -9,14 +9,15 @@ services:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
     ports:
-      - "54002:5432"
+      - "54302:5432"
 
   frontend:
+    container_name: nestjs_302_backend
     build:
       context: ..
       dockerfile: .docker_302/Dockerfile
     ports:
-      - "3003:3000"
+      - "4302:3000"
     volumes:
       - ../app:/usr/src/app
       - /usr/src/app/node_modules

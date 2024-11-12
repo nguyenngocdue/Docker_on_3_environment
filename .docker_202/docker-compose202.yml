@@ -1,8 +1,30 @@
 version: '3'
 services:
+  db:
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: db_ecom
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "54202:5432"
+
   frontend:
+    container_name: nestjs_202_backend
     build:
       context: ..
       dockerfile: .docker_202/Dockerfile
     ports:
-      - "3002:3000"  # Expose cổng 3002 cho môi trường beta
+      - "4202:3000"
+    volumes:
+      - ../app:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://myuser:mypassword@db:5432/db_ecom
+
+volumes:
+  db-data:
