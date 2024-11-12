@@ -1,8 +1,30 @@
 version: '3'
 services:
+  db:
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: db_ecom
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "54102:5432"
+
   frontend:
+    container_name: nestjs_102_backend
     build:
       context: ..
       dockerfile: .docker_102/Dockerfile
     ports:
-      - "3001:3000"  
+      - "4102:3000"
+    volumes:
+      - ../app:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://myuser:mypassword@db:5432/db_ecom
+
+volumes:
+  db-data:

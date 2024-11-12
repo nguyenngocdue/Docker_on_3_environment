@@ -1,5 +1,7 @@
 node_modules
-.git
+npm-debug.log
+Dockerfile
 .dockerignore
-logs
-*.log
+*.md
+src/
+test/
