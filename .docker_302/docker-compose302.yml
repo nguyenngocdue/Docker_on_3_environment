@@ -17,7 +17,7 @@ services:
       context: ..
       dockerfile: .docker_302/Dockerfile
     ports:
-      - "4302:3000"
+      - "4302:3001"
     volumes:
       - ../app:/usr/src/app
       - /usr/src/app/node_modules
