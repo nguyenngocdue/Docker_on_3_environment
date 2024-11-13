@@ -5,7 +5,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: db_ecom
+      POSTGRES_DB: db_amazon_shop
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
     ports:
@@ -24,7 +24,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://myuser:mypassword@db:5432/db_ecom
+      DATABASE_URL: postgres://myuser:mypassword@localhost:5432/db_amazon
 
 volumes:
   db-data:

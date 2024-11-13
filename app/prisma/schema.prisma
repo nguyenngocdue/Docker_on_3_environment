@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  products    Product[]
+}
+
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+  stock       Int      // Số lượng còn lại trong kho
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  orders      OrderItem[]
+  cartItems   CartItem[]
+  wishlistItems WishlistItem[]
+}
+
+
+model WishlistItem {
+  id       Int     @id @default(autoincrement())
+  user     User    @relation(fields: [userId], references: [id])
+  userId   Int
+  product  Product @relation(fields: [productId], references: [id])
+  productId Int
+}
+
+
+model CartItem {
+  id       Int     @id @default(autoincrement())
+  user     User    @relation(fields: [userId], references: [id])
+  userId   Int
+  product  Product @relation(fields: [productId], references: [id])
+  productId Int
+  quantity Int     // Số lượng sản phẩm
+}
+
+
+model OrderItem {
+  id       Int     @id @default(autoincrement())
+  order    Order   @relation(fields: [orderId], references: [id])
+  orderId  Int
+  product  Product @relation(fields: [productId], references: [id])
+  productId Int
+  quantity Int     // Số lượng sản phẩm
+  price    Float   // Giá mỗi sản phẩm tại thời điểm mua
+}
+
+
+
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  items     OrderItem[]
+  total     Float    // Tổng giá trị đơn hàng
+  createdAt DateTime @default(now())
+  status    String   // Trạng thái đơn hàng: pending, shipped, delivered, etc.
+}
+
+
+model User {
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  name         String?
+  password     String       // Mật khẩu của người dùng
+  phone        String?      // Số điện thoại của người dùng
+  address      String?      // Địa chỉ giao hàng
+  createdAt    DateTime     @default(now()) // Thời gian tạo tài khoản
+  updatedAt    DateTime     @updatedAt      // Thời gian cập nhật tài khoản
+  isAdmin      Boolean      @default(false) // Quyền admin
+  orders       Order[]      // Lịch sử đơn hàng (quan hệ với Order)
+  cart         CartItem[]   // Giỏ hàng hiện tại (quan hệ với CartItem)
+  wishlist     WishlistItem[] // Danh sách yêu thích (quan hệ với WishlistItem)
+}
