@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -81,16 +82,16 @@ model Order {
 
 
 model User {
-  id           Int          @id @default(autoincrement())
-  email        String?       @unique
-  username     String?
-  password     String       // Mật khẩu của người dùng
-  phone        String?      // Số điện thoại của người dùng
-  address      String?      // Địa chỉ giao hàng
-  createdAt    DateTime     @default(now()) // Thời gian tạo tài khoản
-  updatedAt    DateTime     @updatedAt      // Thời gian cập nhật tài khoản
-  isAdmin      Boolean      @default(false) // Quyền admin
-  orders       Order[]      // Lịch sử đơn hàng (quan hệ với Order)
-  cart         CartItem[]   // Giỏ hàng hiện tại (quan hệ với CartItem)
-  wishlist     WishlistItem[] // Danh sách yêu thích (quan hệ với WishlistItem)
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  username  String?  @unique  // Đảm bảo cột này đã được khai báo
+  password  String?
+  phone     String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isAdmin   Boolean  @default(false)
+  orders    Order[]
+  cart      CartItem[]
+  wishlist  WishlistItem[]
 }

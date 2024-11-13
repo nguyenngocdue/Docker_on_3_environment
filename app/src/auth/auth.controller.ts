@@ -1,29 +1,14 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { LocalAuthGuard } from './local-auth-guard';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) { }
-
+    constructor(private authService: AuthService) {}
+    @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@Body() loginDto: { username: string; password: string }) {
-        try {
-            const user = await this.authService.validateUser(loginDto.username, loginDto.password);
-            return user;
-            if (user) {
-                return this.authService.login(user);
-            }
-            return { message: 'Invalid credentials' };
-        } catch (error) {
-            console.error('Login error:', error);
-            return { message: 'An error occurred during login' };
-        }
+    async login(@Request() req) {
+        return this.authService.login(req.user);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Post('logout')
-    async logout() {
-        return this.authService.logout();
-    }
 }

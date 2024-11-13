@@ -1,23 +1,24 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtStrategy } from './jwt.strategy';
+import { UserModule } from 'src/user/user.module';
+import { LocalStrategy } from './local.strategy';
+import { UserService } from 'src/user/user.service';
+import { PrismaService } from 'src/prisma.service';
 
 @Module({
   imports: [
+    UserModule,
     PassportModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'), // Load JWT_SECRET from .env
-        signOptions: { expiresIn: '1h' },
-      }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET, // Nên lưu secret này trong .env
+      signOptions: { expiresIn: '1d' },
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService, LocalStrategy, UserService, PrismaService, JwtStrategy],
+  controllers: [AuthController]
 })
 export class AuthModule {}

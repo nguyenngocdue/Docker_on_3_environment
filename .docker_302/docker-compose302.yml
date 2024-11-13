@@ -11,7 +11,7 @@ services:
     ports:
       - "54302:5432"
 
-  frontend:
+  app:
     container_name: nestjs_302_backend
     build:
       context: ..
@@ -24,7 +24,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://myuser:mypassword@localhost:5432/db_amazon
+      DATABASE_URL: "postgresql://myuser:mypassword@db:5432/db_amazon"
 
 volumes:
   db-data:
