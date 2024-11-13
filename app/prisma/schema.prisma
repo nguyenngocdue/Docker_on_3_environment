@@ -82,8 +82,8 @@ model Order {
 
 model User {
   id           Int          @id @default(autoincrement())
-  email        String       @unique
-  name         String?
+  email        String?       @unique
+  username     String?
   password     String       // Mật khẩu của người dùng
   phone        String?      // Số điện thoại của người dùng
   address      String?      // Địa chỉ giao hàng
