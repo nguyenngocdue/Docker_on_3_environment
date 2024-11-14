@@ -1,10 +1,13 @@
-// src/user/user.controller.ts
+// src/user/users.v1.controller.ts
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiOperation } from '@nestjs/swagger';
 
-@Controller('users')
-export class UserController {
+@Controller({
+  path: 'users',  // Đường dẫn gốc của API là /users
+  version: '1',   // Phiên bản 1 của API
+})
+export class UsersV1Controller {
   constructor(private readonly userService: UserService) {}
 
   @Post('register')
@@ -18,5 +21,4 @@ export class UserController {
   async getAllUsers() {
     return this.userService.getAllUsers();
   }
-
 }
