@@ -10,6 +10,8 @@ services:
       POSTGRES_PASSWORD: mypassword
     ports:
       - "54302:5432"
+    networks:
+      - nextjs302
 
   app:
     container_name: nestjs_302_backend
@@ -25,6 +27,10 @@ services:
       - db
     environment:
       DATABASE_URL: "postgresql://myuser:mypassword@db:5432/db_amazon"
+    networks:
+      - nextjs302
 
 volumes:
   db-data:
+networks:
+  nextjs302:
